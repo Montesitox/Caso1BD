@@ -39,6 +39,16 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `mydb`.`assists_countries`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_countries` (
+  `countryid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`countryid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `mydb`.`assists_users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`assists_users` (
@@ -47,14 +57,25 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_users` (
   `firstname` VARCHAR(100) NOT NULL,
   `lastname` VARCHAR(100) NOT NULL,
   `email` VARCHAR(150) NOT NULL,
+  `password_hash` VARCHAR(255) NOT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT NOW(),
   `updated_at` DATETIME NOT NULL,
-  `isActive` VARCHAR(45) NOT NULL,
+  `isActive` TINYINT(1) NOT NULL,
+  `voiceprofileid` VARCHAR(100) NULL,
   `companyid` INT NULL,
+  `countryid` INT NOT NULL,
   PRIMARY KEY (`userid`),
   INDEX `fk_assists_users_assists_companies1_idx` (`companyid` ASC) VISIBLE,
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  INDEX `fk_assists_users_assists_countries1_idx` (`countryid` ASC) VISIBLE,
   CONSTRAINT `fk_assists_users_assists_companies1`
     FOREIGN KEY (`companyid`)
     REFERENCES `mydb`.`assists_companies` (`companyid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_users_assists_countries1`
+    FOREIGN KEY (`countryid`)
+    REFERENCES `mydb`.`assists_countries` (`countryid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -197,192 +218,42 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`assists_ContactInfoTypes`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_ContactInfoTypes` (
-  `contactinfotypeid` INT NOT NULL,
-  `name` VARCHAR(50) NOT NULL,
-  `description` VARCHAR(150) NULL,
-  PRIMARY KEY (`contactinfotypeid`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `mydb`.`assists_paymentMethods`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`assists_paymentMethods` (
   `paymentMethodid` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
-  `descripcion` VARCHAR(255) NOT NULL,
-  `isactive` BIT NULL DEFAULT 1,
-  `referenceid` VARCHAR(50) NULL,
+  `apiURL` VARCHAR(255) NULL,
+  `secretKey` VARCHAR(255) NULL,
+  `key` VARCHAR(255) NULL,
+  `logoIconURL` VARCHAR(255) NULL,
+  `enabled` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`paymentMethodid`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`assists_dispositiveType`
+-- Table `mydb`.`assists_paymentMedia`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_dispositiveType` (
-  `dispositiveTypeid` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`dispositiveTypeid`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`assists_dispositive`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_dispositive` (
-  `dispositiveid` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(50) NOT NULL,
-  `activation` DATETIME NOT NULL DEFAULT NOW(),
-  `dispositiveTypeid` INT NOT NULL,
-  `assists_users_userid` INT NOT NULL,
-  PRIMARY KEY (`dispositiveid`),
-  INDEX `fk_assists_dispositive_assists_dispositiveType1_idx` (`dispositiveTypeid` ASC) VISIBLE,
-  INDEX `fk_assists_dispositive_assists_users1_idx` (`assists_users_userid` ASC) VISIBLE,
-  CONSTRAINT `fk_assists_dispositive_assists_dispositiveType1`
-    FOREIGN KEY (`dispositiveTypeid`)
-    REFERENCES `mydb`.`assists_dispositiveType` (`dispositiveTypeid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_assists_dispositive_assists_users1`
-    FOREIGN KEY (`assists_users_userid`)
-    REFERENCES `mydb`.`assists_users` (`userid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`assists_executionState`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_executionState` (
-  `executionStateid` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`executionStateid`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`assists_voicecommand`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_voicecommand` (
-  `commandid` INT NOT NULL AUTO_INCREMENT,
-  `description` TEXT NOT NULL,
-  `datecommand` DATETIME NOT NULL,
-  `dispositiveid` INT NOT NULL,
-  `executionStateid` INT NOT NULL,
-  PRIMARY KEY (`commandid`),
-  INDEX `fk_assists_voicecommand_assists_dispositive1_idx` (`dispositiveid` ASC) VISIBLE,
-  INDEX `fk_assists_voicecommand_assists_executionState1_idx` (`executionStateid` ASC) VISIBLE,
-  CONSTRAINT `fk_assists_voicecommand_assists_dispositive1`
-    FOREIGN KEY (`dispositiveid`)
-    REFERENCES `mydb`.`assists_dispositive` (`dispositiveid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_assists_voicecommand_assists_executionState1`
-    FOREIGN KEY (`executionStateid`)
-    REFERENCES `mydb`.`assists_executionState` (`executionStateid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`assists_accionType`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_accionType` (
-  `accionTypeid` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(50) NOT NULL,
-  `descripcion` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`accionTypeid`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`assists_accion`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_accion` (
-  `accionid` INT NOT NULL AUTO_INCREMENT,
-  `accionParameter` VARCHAR(100) NOT NULL,
-  `dateAccion` DATETIME NOT NULL,
-  `estado` TINYINT(3) NOT NULL,
-  `commandid` INT NOT NULL,
-  `accionTypeid` INT NOT NULL,
-  PRIMARY KEY (`accionid`),
-  INDEX `fk_assists_accion_assists_voicecommand1_idx` (`commandid` ASC) VISIBLE,
-  INDEX `fk_assists_accion_assists_accionType1_idx` (`accionTypeid` ASC) VISIBLE,
-  CONSTRAINT `fk_assists_accion_assists_voicecommand1`
-    FOREIGN KEY (`commandid`)
-    REFERENCES `mydb`.`assists_voicecommand` (`commandid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_assists_accion_assists_accionType1`
-    FOREIGN KEY (`accionTypeid`)
-    REFERENCES `mydb`.`assists_accionType` (`accionTypeid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`assists_recurringpayments`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_recurringpayments` (
-  `recurringpaymentid` INT NOT NULL AUTO_INCREMENT,
-  `service` VARCHAR(100) NOT NULL,
-  `amount` DECIMAL(10,2) NOT NULL,
-  `recurrence` ENUM('daily', 'weekly', 'monthly', 'yearly') NOT NULL,
-  `recurrenceday` INT NOT NULL,
-  `nextPayment` DATETIME NOT NULL,
-  `isactive` BIT NULL DEFAULT 1,
-  `userid` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_paymentMedia` (
+  `paymentMediaid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `token` VARCHAR(255) NULL,
+  `expTokenDate` DATE NULL,
+  `maskAccount` VARCHAR(100) NULL,
   `paymentMethodid` INT NOT NULL,
-  `accionid` INT NOT NULL,
-  `currencyid` INT NOT NULL,
-  PRIMARY KEY (`recurringpaymentid`),
-  INDEX `fk_assists_recurringpayments_assists_users1_idx` (`userid` ASC) VISIBLE,
-  INDEX `fk_assists_recurringpayments_assists_paymentMethods1_idx` (`paymentMethodid` ASC) VISIBLE,
-  INDEX `fk_assists_recurringpayments_assists_accion1_idx` (`accionid` ASC) VISIBLE,
-  INDEX `fk_assists_recurringpayments_currency1_idx` (`currencyid` ASC) VISIBLE,
-  CONSTRAINT `fk_assists_recurringpayments_assists_users1`
-    FOREIGN KEY (`userid`)
-    REFERENCES `mydb`.`assists_users` (`userid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_assists_recurringpayments_assists_paymentMethods1`
+  `userid` INT NOT NULL,
+  PRIMARY KEY (`paymentMediaid`, `paymentMethodid`, `userid`),
+  INDEX `fk_assists_paymentMedia_assists_paymentMethods1_idx` (`paymentMethodid` ASC) VISIBLE,
+  INDEX `fk_assists_paymentMedia_assists_users1_idx` (`userid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_paymentMedia_assists_paymentMethods1`
     FOREIGN KEY (`paymentMethodid`)
     REFERENCES `mydb`.`assists_paymentMethods` (`paymentMethodid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_assists_recurringpayments_assists_accion1`
-    FOREIGN KEY (`accionid`)
-    REFERENCES `mydb`.`assists_accion` (`accionid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_assists_recurringpayments_currency1`
-    FOREIGN KEY (`currencyid`)
-    REFERENCES `mydb`.`assists_currency` (`currencyid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`assists_paymentconfirmations`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_paymentconfirmations` (
-  `confirmationid` INT NOT NULL AUTO_INCREMENT,
-  `confirmation` DATETIME NOT NULL DEFAULT NOW(),
-  `estado` ENUM('pending', 'completed', 'failed') NULL,
-  `recurringpaymentid` INT NOT NULL,
-  PRIMARY KEY (`confirmationid`),
-  INDEX `fk_assists_paymentconfirmations_assists_recurringpayments1_idx` (`recurringpaymentid` ASC) VISIBLE,
-  CONSTRAINT `fk_assists_paymentconfirmations_assists_recurringpayments1`
-    FOREIGN KEY (`recurringpaymentid`)
-    REFERENCES `mydb`.`assists_recurringpayments` (`recurringpaymentid`)
+  CONSTRAINT `fk_assists_paymentMedia_assists_users1`
+    FOREIGN KEY (`userid`)
+    REFERENCES `mydb`.`assists_users` (`userid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -393,22 +264,44 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`assists_payments` (
   `paymentid` BIGINT NOT NULL AUTO_INCREMENT,
-  `transactiondate` DATETIME NOT NULL,
-  `referenceid` VARCHAR(50) NULL,
-  `description` VARCHAR(255) NOT NULL,
-  `recurringpaymentid` INT NOT NULL,
-  `confirmationid` INT NOT NULL,
-  PRIMARY KEY (`paymentid`),
-  INDEX `fk_assists_payments_assists_recurringpayments1_idx` (`recurringpaymentid` ASC) VISIBLE,
-  INDEX `fk_assists_payments_assists_paymentconfirmations1_idx` (`confirmationid` ASC) VISIBLE,
-  CONSTRAINT `fk_assists_payments_assists_recurringpayments1`
-    FOREIGN KEY (`recurringpaymentid`)
-    REFERENCES `mydb`.`assists_recurringpayments` (`recurringpaymentid`)
+  `monto` DECIMAL(10,2) NOT NULL,
+  `actualMonto` DECIMAL(10,2) NULL,
+  `result` ENUM('success', 'failed', 'pending') NOT NULL,
+  `auth` VARCHAR(255) NULL,
+  `reference` VARCHAR(255) NULL,
+  `changeToken` VARCHAR(255) NULL,
+  `description` VARCHAR(255) NULL,
+  `error` TEXT NULL,
+  `fecha` DATETIME NOT NULL DEFAULT NOW(),
+  `checksum` VARBINARY(250) NULL,
+  `userid` INT NOT NULL,
+  `moduleid` TINYINT(8) NOT NULL,
+  `paymentMediaid` INT NOT NULL,
+  `paymentMethodid` INT NOT NULL,
+  `currencyid` INT NOT NULL,
+  PRIMARY KEY (`paymentid`, `userid`, `moduleid`),
+  INDEX `fk_assists_payments_assists_users1_idx` (`userid` ASC) VISIBLE,
+  INDEX `fk_assists_payments_assists_modules1_idx` (`moduleid` ASC) VISIBLE,
+  INDEX `fk_assists_payments_assists_paymentMedia1_idx` (`paymentMediaid` ASC, `paymentMethodid` ASC) VISIBLE,
+  INDEX `fk_assists_payments_assists_currency1_idx` (`currencyid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_payments_assists_users1`
+    FOREIGN KEY (`userid`)
+    REFERENCES `mydb`.`assists_users` (`userid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_assists_payments_assists_paymentconfirmations1`
-    FOREIGN KEY (`confirmationid`)
-    REFERENCES `mydb`.`assists_paymentconfirmations` (`confirmationid`)
+  CONSTRAINT `fk_assists_payments_assists_modules1`
+    FOREIGN KEY (`moduleid`)
+    REFERENCES `mydb`.`assists_modules` (`moduleid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_payments_assists_paymentMedia1`
+    FOREIGN KEY (`paymentMediaid` , `paymentMethodid`)
+    REFERENCES `mydb`.`assists_paymentMedia` (`paymentMediaid` , `paymentMethodid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_payments_assists_currency1`
+    FOREIGN KEY (`currencyid`)
+    REFERENCES `mydb`.`assists_currency` (`currencyid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -600,6 +493,45 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `mydb`.`assists_dispositiveType`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_dispositiveType` (
+  `dispositiveTypeid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`dispositiveTypeid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_dispositive`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_dispositive` (
+  `dispositiveid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `activation` DATETIME NOT NULL DEFAULT NOW(),
+  `deviceIdentifier` VARCHAR(100) NULL,
+  `lastActive` DATETIME NULL,
+  `status` ENUM('active', 'inactive', 'maintenance') NULL DEFAULT 'active',
+  `firmwareversion` VARCHAR(30) NULL,
+  `dispositiveTypeid` INT NOT NULL,
+  `userid` INT NOT NULL,
+  PRIMARY KEY (`dispositiveid`),
+  INDEX `fk_assists_dispositive_assists_dispositiveType1_idx` (`dispositiveTypeid` ASC) VISIBLE,
+  INDEX `fk_assists_dispositive_assists_users1_idx` (`userid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_dispositive_assists_dispositiveType1`
+    FOREIGN KEY (`dispositiveTypeid`)
+    REFERENCES `mydb`.`assists_dispositiveType` (`dispositiveTypeid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_dispositive_assists_users1`
+    FOREIGN KEY (`userid`)
+    REFERENCES `mydb`.`assists_users` (`userid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `mydb`.`assists_logs`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`assists_logs` (
@@ -607,6 +539,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_logs` (
   `log_type_id` INT NOT NULL,
   `log_source_id` INT NOT NULL,
   `log_severity_id` INT NOT NULL,
+  `dispositiveid` INT NOT NULL,
   `description` VARCHAR(255) NULL,
   `post_time` DATETIME NOT NULL,
   `computer` VARCHAR(100) NULL,
@@ -617,7 +550,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_logs` (
   `value1` VARCHAR(180) NULL,
   `value2` VARCHAR(180) NULL,
   `checksum` VARCHAR(45) NULL,
-  `dispositiveid` INT NOT NULL,
   PRIMARY KEY (`log_id`, `dispositiveid`),
   INDEX `fk_logs_log_types1_idx` (`log_type_id` ASC) VISIBLE,
   INDEX `fk_logs_log_source1_idx` (`log_source_id` ASC) VISIBLE,
@@ -665,6 +597,147 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `mydb`.`assists_executionState`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_executionState` (
+  `executionStateid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`executionStateid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_intentType`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_intentType` (
+  `intentTypeid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `descripcion` VARCHAR(255) NULL,
+  PRIMARY KEY (`intentTypeid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_interaction_session`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_interaction_session` (
+  `sessionid` INT NOT NULL AUTO_INCREMENT,
+  `session_uuid` VARCHAR(36) NOT NULL,
+  `start_time` DATETIME NOT NULL DEFAULT NOW(),
+  `end_time` DATETIME NULL,
+  `session_status` ENUM('active', 'completed', 'interrupted') NULL DEFAULT 'active',
+  `interaction_type` ENUM('audio', 'text', 'video') NOT NULL DEFAULT 'audio',
+  `userid` INT NOT NULL,
+  `dispositiveid` INT NOT NULL,
+  PRIMARY KEY (`sessionid`),
+  INDEX `fk_assists_audio_session_assists_users1_idx` (`userid` ASC) VISIBLE,
+  INDEX `fk_assists_audio_session_assists_dispositive1_idx` (`dispositiveid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_audio_session_assists_users1`
+    FOREIGN KEY (`userid`)
+    REFERENCES `mydb`.`assists_users` (`userid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_audio_session_assists_dispositive1`
+    FOREIGN KEY (`dispositiveid`)
+    REFERENCES `mydb`.`assists_dispositive` (`dispositiveid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_voicecommand`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_voicecommand` (
+  `commandid` INT NOT NULL AUTO_INCREMENT,
+  `originalText` TEXT NOT NULL,
+  `processedText` TEXT NULL,
+  `datecommand` DATETIME NOT NULL DEFAULT NOW(),
+  `duration_ms` INT NULL,
+  `confidenceScore` FLOAT NULL,
+  `dispositiveid` INT NOT NULL,
+  `executionStateid` INT NOT NULL,
+  `intentTypeid` INT NOT NULL,
+  `sessionid` INT NOT NULL,
+  PRIMARY KEY (`commandid`),
+  INDEX `fk_assists_voicecommand_assists_dispositive1_idx` (`dispositiveid` ASC) VISIBLE,
+  INDEX `fk_assists_voicecommand_assists_executionState1_idx` (`executionStateid` ASC) VISIBLE,
+  INDEX `fk_assists_voicecommand_assists_intentType1_idx` (`intentTypeid` ASC) VISIBLE,
+  INDEX `fk_assists_voicecommand_assists_audio_session1_idx` (`sessionid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_voicecommand_assists_dispositive1`
+    FOREIGN KEY (`dispositiveid`)
+    REFERENCES `mydb`.`assists_dispositive` (`dispositiveid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_voicecommand_assists_executionState1`
+    FOREIGN KEY (`executionStateid`)
+    REFERENCES `mydb`.`assists_executionState` (`executionStateid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_voicecommand_assists_intentType1`
+    FOREIGN KEY (`intentTypeid`)
+    REFERENCES `mydb`.`assists_intentType` (`intentTypeid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_voicecommand_assists_audio_session1`
+    FOREIGN KEY (`sessionid`)
+    REFERENCES `mydb`.`assists_interaction_session` (`sessionid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_accionType`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_accionType` (
+  `accionTypeid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `descripcion` VARCHAR(100) NOT NULL,
+  `handler_class` VARCHAR(100) NULL,
+  PRIMARY KEY (`accionTypeid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_accion`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_accion` (
+  `accionid` INT NOT NULL AUTO_INCREMENT,
+  `dateAccion` DATETIME NOT NULL DEFAULT NOW(),
+  `estado` TINYINT(1) NOT NULL DEFAULT 0,
+  `error_message` TEXT NULL,
+  `excecution_time_ms` INT NULL,
+  `commandid` INT NOT NULL,
+  `accionTypeid` INT NOT NULL,
+  PRIMARY KEY (`accionid`),
+  INDEX `fk_assists_accion_assists_voicecommand1_idx` (`commandid` ASC) VISIBLE,
+  INDEX `fk_assists_accion_assists_accionType1_idx` (`accionTypeid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_accion_assists_voicecommand1`
+    FOREIGN KEY (`commandid`)
+    REFERENCES `mydb`.`assists_voicecommand` (`commandid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_accion_assists_accionType1`
+    FOREIGN KEY (`accionTypeid`)
+    REFERENCES `mydb`.`assists_accionType` (`accionTypeid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_providersAI`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_providersAI` (
+  `providersAIid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `description` TEXT NULL,
+  PRIMARY KEY (`providersAIid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `mydb`.`assists_modeloAI`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`assists_modeloAI` (
@@ -672,8 +745,26 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_modeloAI` (
   `name` VARCHAR(80) NOT NULL,
   `version` VARCHAR(10) NOT NULL,
   `date_training` DATETIME NOT NULL,
+  `date_deployed` DATETIME NOT NULL,
   `text_precision` FLOAT NOT NULL,
-  PRIMARY KEY (`modeloAIid`))
+  `model_type` ENUM('stt', 'nlu', 'intent', 'multi') NOT NULL,
+  `configuration` JSON NULL,
+  `isActive` TINYINT(1) NULL DEFAULT 1,
+  `providersAIid` INT NOT NULL,
+  `assists_voicecommand_commandid` INT NOT NULL,
+  PRIMARY KEY (`modeloAIid`),
+  INDEX `fk_assists_modeloAI_assists_providersAI1_idx` (`providersAIid` ASC) VISIBLE,
+  INDEX `fk_assists_modeloAI_assists_voicecommand1_idx` (`assists_voicecommand_commandid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_modeloAI_assists_providersAI1`
+    FOREIGN KEY (`providersAIid`)
+    REFERENCES `mydb`.`assists_providersAI` (`providersAIid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_modeloAI_assists_voicecommand1`
+    FOREIGN KEY (`assists_voicecommand_commandid`)
+    REFERENCES `mydb`.`assists_voicecommand` (`commandid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -684,6 +775,9 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_modeloAI_voicecommand` (
   `modeloAIid` INT NOT NULL,
   `commandid` INT NOT NULL,
   `confidence` FLOAT NOT NULL,
+  `processing_time_ms` INT NULL,
+  `timestamp` DATETIME NOT NULL,
+  `raw_response` JSON NULL,
   PRIMARY KEY (`modeloAIid`, `commandid`),
   INDEX `fk_assists_modeloAI_has_assists_voicecommand_assists_voicec_idx` (`commandid` ASC) VISIBLE,
   INDEX `fk_assists_modeloAI_has_assists_voicecommand_assists_modelo_idx` (`modeloAIid` ASC) VISIBLE,
@@ -714,13 +808,23 @@ ENGINE = InnoDB;
 -- Table `mydb`.`assists_MediaFiles`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`assists_MediaFiles` (
-  `medaifileid` INT NOT NULL AUTO_INCREMENT,
-  `photoURL` VARCHAR(200) NOT NULL,
-  `deleted` BIT NOT NULL,
+  `mediaifileid` INT NOT NULL AUTO_INCREMENT,
+  `path` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
+  `size` INT NULL,
+  `mime_type` VARCHAR(100) NULL,
+  `md5_hash` VARCHAR(32) NULL,
+  `is_deleted` TINYINT(1) NOT NULL DEFAULT 0,
+  `created_at` DATETIME NOT NULL DEFAULT NOW(),
   `updated_at` DATETIME NULL,
   `userid` INT NOT NULL,
   `mediatypeid` INT NOT NULL,
-  PRIMARY KEY (`medaifileid`),
+  `duration_seconds` FLOAT NULL,
+  `sample_rate` INT NULL,
+  `channels` TINYINT NULL,
+  `audio_format` VARCHAR(100) NULL,
+  `transcription_status` INT NULL,
+  PRIMARY KEY (`mediaifileid`),
   INDEX `fk_assists_MediaFiles_assists_users1_idx` (`userid` ASC) VISIBLE,
   INDEX `fk_assists_MediaFiles_assists_MediaTypes1_idx` (`mediatypeid` ASC) VISIBLE,
   CONSTRAINT `fk_assists_MediaFiles_assists_users1`
@@ -737,50 +841,100 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`assists_audio`
+-- Table `mydb`.`assists_transactions`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_audio` (
-  `audioid` INT NOT NULL AUTO_INCREMENT,
-  `recorded` DATETIME NOT NULL DEFAULT NOW(),
-  `commandid` INT NOT NULL,
-  `assists_MediaFiles_medaifileid` INT NOT NULL,
-  PRIMARY KEY (`audioid`),
-  INDEX `fk_assists_audio_assists_voicecommand1_idx` (`commandid` ASC) VISIBLE,
-  INDEX `fk_assists_audio_assists_MediaFiles1_idx` (`assists_MediaFiles_medaifileid` ASC) VISIBLE,
-  CONSTRAINT `fk_assists_audio_assists_voicecommand1`
-    FOREIGN KEY (`commandid`)
-    REFERENCES `mydb`.`assists_voicecommand` (`commandid`)
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_transactions` (
+  `transactionid` BIGINT NOT NULL AUTO_INCREMENT,
+  `amount` DECIMAL(10,2) NOT NULL,
+  `description` VARCHAR(255) NULL,
+  `transDatetime` DATETIME NOT NULL DEFAULT NOW(),
+  `postTime` DATETIME NOT NULL DEFAULT NOW(),
+  `refNumber` VARCHAR(255) NULL,
+  `exchangeRate` DECIMAL(10,2) NULL,
+  `checksum` VARBINARY(250) NULL,
+  `userid` INT NOT NULL,
+  `paymentid` BIGINT NOT NULL,
+  PRIMARY KEY (`transactionid`),
+  INDEX `fk_assists_transactions_assists_users1_idx` (`userid` ASC) VISIBLE,
+  INDEX `fk_assists_transactions_assists_payments1_idx` (`paymentid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_transactions_assists_users1`
+    FOREIGN KEY (`userid`)
+    REFERENCES `mydb`.`assists_users` (`userid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_assists_audio_assists_MediaFiles1`
-    FOREIGN KEY (`assists_MediaFiles_medaifileid`)
-    REFERENCES `mydb`.`assists_MediaFiles` (`medaifileid`)
+  CONSTRAINT `fk_assists_transactions_assists_payments1`
+    FOREIGN KEY (`paymentid`)
+    REFERENCES `mydb`.`assists_payments` (`paymentid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`assists_contactIinfo`
+-- Table `mydb`.`assists_recurringpayments`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`assists_contactIinfo` (
-  `contactinfoid` INT NOT NULL AUTO_INCREMENT,
-  `entityType` ENUM('company', 'provider', 'user') NOT NULL,
-  `entityid` INT NOT NULL,
-  `updated_at` DATETIME NOT NULL,
-  `contactinfotypeid` INT NOT NULL,
-  `companyid` INT NOT NULL,
-  PRIMARY KEY (`contactinfoid`, `contactinfotypeid`),
-  INDEX `fk_assists_contactIinfo_assists_ContactInfoTypes1_idx` (`contactinfotypeid` ASC) VISIBLE,
-  INDEX `fk_assists_contactIinfo_assists_companies1_idx` (`companyid` ASC) VISIBLE,
-  CONSTRAINT `fk_assists_contactIinfo_assists_ContactInfoTypes1`
-    FOREIGN KEY (`contactinfotypeid`)
-    REFERENCES `mydb`.`assists_ContactInfoTypes` (`contactinfotypeid`)
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_recurringpayments` (
+  `recurringpaymentid` INT NOT NULL AUTO_INCREMENT,
+  `service` VARCHAR(100) NOT NULL,
+  `amount` DECIMAL(10,2) NOT NULL,
+  `recurrence` ENUM('daily', 'weekly', 'monthly', 'yearly') NOT NULL,
+  `recurrenceday` INT NOT NULL,
+  `nextPayment` DATETIME NOT NULL,
+  `isactive` BIT NULL DEFAULT 1,
+  `last_payment_day` DATE NULL,
+  `frecuency_interval` INT NULL,
+  `userid` INT NOT NULL,
+  `accionid` INT NOT NULL,
+  `currencyid` INT NOT NULL,
+  `paymentMediaid` INT NOT NULL,
+  `transactionid` BIGINT NOT NULL,
+  PRIMARY KEY (`recurringpaymentid`),
+  INDEX `fk_assists_recurringpayments_assists_users1_idx` (`userid` ASC) VISIBLE,
+  INDEX `fk_assists_recurringpayments_assists_accion1_idx` (`accionid` ASC) VISIBLE,
+  INDEX `fk_assists_recurringpayments_currency1_idx` (`currencyid` ASC) VISIBLE,
+  INDEX `fk_assists_recurringpayments_assists_paymentMedia1_idx` (`paymentMediaid` ASC) VISIBLE,
+  INDEX `fk_assists_recurringpayments_assists_transactions1_idx` (`transactionid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_recurringpayments_assists_users1`
+    FOREIGN KEY (`userid`)
+    REFERENCES `mydb`.`assists_users` (`userid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_assists_contactIinfo_assists_companies1`
-    FOREIGN KEY (`companyid`)
-    REFERENCES `mydb`.`assists_companies` (`companyid`)
+  CONSTRAINT `fk_assists_recurringpayments_assists_accion1`
+    FOREIGN KEY (`accionid`)
+    REFERENCES `mydb`.`assists_accion` (`accionid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_recurringpayments_currency1`
+    FOREIGN KEY (`currencyid`)
+    REFERENCES `mydb`.`assists_currency` (`currencyid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_recurringpayments_assists_paymentMedia1`
+    FOREIGN KEY (`paymentMediaid`)
+    REFERENCES `mydb`.`assists_paymentMedia` (`paymentMediaid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_recurringpayments_assists_transactions1`
+    FOREIGN KEY (`transactionid`)
+    REFERENCES `mydb`.`assists_transactions` (`transactionid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_paymentconfirmations`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_paymentconfirmations` (
+  `confirmationid` INT NOT NULL AUTO_INCREMENT,
+  `confirmation` DATETIME NOT NULL DEFAULT NOW(),
+  `estado` ENUM('pending', 'completed', 'failed') NULL,
+  `paymentid` BIGINT NOT NULL,
+  PRIMARY KEY (`confirmationid`),
+  INDEX `fk_assists_paymentconfirmations_assists_payments1_idx` (`paymentid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_paymentconfirmations_assists_payments1`
+    FOREIGN KEY (`paymentid`)
+    REFERENCES `mydb`.`assists_payments` (`paymentid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -867,7 +1021,110 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_user_preferences` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_conversation_context`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_conversation_context` (
+  `conversation_contextid` INT NOT NULL AUTO_INCREMENT,
+  `start_time` DATETIME NOT NULL DEFAULT NOW(),
+  `last_updated` DATETIME NOT NULL,
+  `isActive` TINYINT(1) NULL DEFAULT 1,
+  `context_data` JSON NULL,
+  `userid` INT NOT NULL,
+  PRIMARY KEY (`conversation_contextid`),
+  INDEX `fk_assists_conversation_context_assists_users1_idx` (`userid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_conversation_context_assists_users1`
+    FOREIGN KEY (`userid`)
+    REFERENCES `mydb`.`assists_users` (`userid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_entities`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_entities` (
+  `entityid` INT NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(50) NOT NULL,
+  `value` VARCHAR(255) NOT NULL,
+  `metadata` JSON NULL,
+  `confidence_score` FLOAT NULL,
+  `commandid` INT NOT NULL,
+  PRIMARY KEY (`entityid`),
+  INDEX `fk_assists_entities_assists_voicecommand1_idx` (`commandid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_entities_assists_voicecommand1`
+    FOREIGN KEY (`commandid`)
+    REFERENCES `mydb`.`assists_voicecommand` (`commandid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_user_feedback`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_user_feedback` (
+  `user_feedbackid` INT NOT NULL AUTO_INCREMENT,
+  `rating` TINYINT NOT NULL,
+  `feedback_text` TEXT NULL,
+  `is_correct` TINYINT(1) NULL,
+  `expected_result` TEXT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT NOW(),
+  `additional_info` VARCHAR(255) NULL,
+  `commandid` INT NOT NULL,
+  `userid` INT NOT NULL,
+  PRIMARY KEY (`user_feedbackid`),
+  INDEX `fk_assists_user_feedback_assists_voicecommand1_idx` (`commandid` ASC) VISIBLE,
+  INDEX `fk_assists_user_feedback_assists_users1_idx` (`userid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_user_feedback_assists_voicecommand1`
+    FOREIGN KEY (`commandid`)
+    REFERENCES `mydb`.`assists_voicecommand` (`commandid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_user_feedback_assists_users1`
+    FOREIGN KEY (`userid`)
+    REFERENCES `mydb`.`assists_users` (`userid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_accionParameters`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_accionParameters` (
+  `parametersid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `type` ENUM('string', 'number', 'date', 'boolean') NOT NULL,
+  `required` TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`parametersid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_accionParametersValues`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_accionParametersValues` (
+  `accionid` INT NOT NULL,
+  `parametersid` INT NOT NULL,
+  `value` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`accionid`, `parametersid`),
+  INDEX `fk_assists_accion_has_assists_accionParameters_assists_acci_idx` (`parametersid` ASC) VISIBLE,
+  INDEX `fk_assists_accion_has_assists_accionParameters_assists_acci_idx1` (`accionid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_accion_has_assists_accionParameters_assists_accion1`
+    FOREIGN KEY (`accionid`)
+    REFERENCES `mydb`.`assists_accion` (`accionid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_accion_has_assists_accionParameters_assists_accion2`
+    FOREIGN KEY (`parametersid`)
+    REFERENCES `mydb`.`assists_accionParameters` (`parametersid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
