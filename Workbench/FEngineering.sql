@@ -355,6 +355,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_userSubscriptions` (
   `usersubcriptionid` INT NOT NULL AUTO_INCREMENT,
   `startdate` DATE NOT NULL,
   `enddate` DATE NULL,
+  `next_payment` DATE NULL,
   `is_active` BIT NULL DEFAULT 1,
   `userid` INT NOT NULL,
   `priceid` INT NOT NULL,
@@ -655,6 +656,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_voicecommand` (
   `datecommand` DATETIME NOT NULL DEFAULT NOW(),
   `duration_ms` INT NULL,
   `confidenceScore` FLOAT NULL,
+  `is_correct` TINYINT(1) NOT NULL,
   `dispositiveid` INT NOT NULL,
   `executionStateid` INT NOT NULL,
   `intentTypeid` INT NOT NULL,
@@ -1062,21 +1064,30 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `mydb`.`assists_ai_error_types`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_ai_error_types` (
+  `error_typesid` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `description` TEXT NULL,
+  PRIMARY KEY (`error_typesid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `mydb`.`assists_user_feedback`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`assists_user_feedback` (
   `user_feedbackid` INT NOT NULL AUTO_INCREMENT,
-  `rating` TINYINT NOT NULL,
-  `feedback_text` TEXT NULL,
-  `is_correct` TINYINT(1) NULL,
-  `expected_result` TEXT NULL,
   `created_at` DATETIME NOT NULL DEFAULT NOW(),
-  `additional_info` VARCHAR(255) NULL,
+  `feedback_text` TEXT NULL,
   `commandid` INT NOT NULL,
   `userid` INT NOT NULL,
+  `error_typesid` INT NOT NULL,
   PRIMARY KEY (`user_feedbackid`),
   INDEX `fk_assists_user_feedback_assists_voicecommand1_idx` (`commandid` ASC) VISIBLE,
   INDEX `fk_assists_user_feedback_assists_users1_idx` (`userid` ASC) VISIBLE,
+  INDEX `fk_assists_user_feedback_assists_ai_error_types1_idx` (`error_typesid` ASC) VISIBLE,
   CONSTRAINT `fk_assists_user_feedback_assists_voicecommand1`
     FOREIGN KEY (`commandid`)
     REFERENCES `mydb`.`assists_voicecommand` (`commandid`)
@@ -1085,6 +1096,11 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_user_feedback` (
   CONSTRAINT `fk_assists_user_feedback_assists_users1`
     FOREIGN KEY (`userid`)
     REFERENCES `mydb`.`assists_users` (`userid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_user_feedback_assists_ai_error_types1`
+    FOREIGN KEY (`error_typesid`)
+    REFERENCES `mydb`.`assists_ai_error_types` (`error_typesid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -1120,6 +1136,31 @@ CREATE TABLE IF NOT EXISTS `mydb`.`assists_accionParametersValues` (
   CONSTRAINT `fk_assists_accion_has_assists_accionParameters_assists_accion2`
     FOREIGN KEY (`parametersid`)
     REFERENCES `mydb`.`assists_accionParameters` (`parametersid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`assists_currency_exchange`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`assists_currency_exchange` (
+  `exchangeid` INT NOT NULL AUTO_INCREMENT,
+  `exchangeRate` DECIMAL(10,4) NOT NULL,
+  `effectiveDate` DATE NOT NULL,
+  `from_currencyid` INT NOT NULL,
+  `to_currencyid` INT NOT NULL,
+  PRIMARY KEY (`exchangeid`),
+  INDEX `fk_assists_currency_exchange_assists_currency1_idx` (`from_currencyid` ASC) VISIBLE,
+  INDEX `fk_assists_currency_exchange_assists_currency2_idx` (`to_currencyid` ASC) VISIBLE,
+  CONSTRAINT `fk_assists_currency_exchange_assists_currency1`
+    FOREIGN KEY (`from_currencyid`)
+    REFERENCES `mydb`.`assists_currency` (`currencyid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_assists_currency_exchange_assists_currency2`
+    FOREIGN KEY (`to_currencyid`)
+    REFERENCES `mydb`.`assists_currency` (`currencyid`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
