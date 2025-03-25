@@ -10,17 +10,148 @@ https://raw.githubusercontent.com/Montesitox/Caso1BD/refs/heads/main/Scripts/Ins
 Script de consultas:
 https://raw.githubusercontent.com/Montesitox/Caso1BD/refs/heads/main/Scripts/ConsultasPunto4.sql
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DataTable 4.1
---
+| # userid | full_name        | email                         | country    | total_paid_in_crc |
+|----------|------------------|-------------------------------|------------|-------------------|
+| 2        | Pedro Morales    | pedro.morales2@correo.com     | España     | 1258966.65        |
+| 5        | María Fernández  | maría.fernández5@correo.com   | Colombia   | 1163650.23        |
+| 30       | Carlos Fernández | carlos.fernández30@correo.com | España     | 417552.52         |
+| 17       | María Morales    | maría.morales17@correo.com    | España     | 320056.11         |
+| 20       | Juan Martínez    | juan.martínez20@correo.com    | España     | 252186.55         |
+| 14       | Carlos García    | carlos.garcía14@correo.com    | España     | 200132.80         |
+| 11       | Elena Díaz       | elena.díaz11@correo.com       | Argentina  | 195089.89         |
+| 24       | Pedro Ruiz       | pedro.ruiz24@correo.com       | España     | 177277.77         |
+| 8        | Elena Morales    | elena.morales8@correo.com     | España     | 153446.06         |
+| 25       | Lucía Ruiz       | lucía.ruiz25@correo.com       | España     | 143895.30         |
+| 29       | María Fernández  | maría.fernández29@correo.com  | España     | 143673.44         |
+| 28       | Luis López       | luis.lópez28@correo.com       | México     | 125705.26         |
+| 10       | Ana Díaz         | ana.díaz10@correo.com         | Argentina  | 119447.89         |
+| 23       | Juan García      | juan.garcía23@correo.com      | España     | 108207.87         |
+| 27       | Luis Rodríguez   | luis.rodríguez27@correo.com   | Argentina  | 784.86            |
+| 16       | Elena Gómez      | elena.gómez16@correo.com      | Argentina  | 771.76            |
+| 1        | Carlos Rodríguez | carlos.rodríguez1@correo.com  | México     | 764.92            |
+| 7        | Pedro Martínez   | pedro.martínez7@correo.com    | Colombia   | 309.03            |
+| 12       | Ana Gómez        | ana.gómez12@correo.com        | Costa Rica | 292.82            |
+| 26       | Sofía Martínez   | sofía.martínez26@correo.com   | Argentina  | 218.97            |
+| 22       | Elena Díaz       | elena.díaz22@correo.com       | México     | 167.16            |
+| 3        | Luis Morales     | luis.morales3@correo.com      | España     | 142.14            |
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DataTable 4.2
---
+| # Nombre | Apellido  | Correo                       | next_payment |
+|----------|-----------|------------------------------|--------------|
+| Elena    | Gómez     | elena.gómez16@correo.com     | 2025-03-26   |
+| María    | Rodríguez | maría.rodríguez13@correo.com | 2025-03-26   |
+| Elena    | Gómez     | elena.gómez16@correo.com     | 2025-03-26   |
+| Lucía    | Ruiz      | lucía.ruiz25@correo.com      | 2025-03-26   |
+| Juan     | Martínez  | juan.martínez20@correo.com   | 2025-03-27   |
+| Luis     | López     | luis.lópez19@correo.com      | 2025-03-28   |
+| Juan     | Fernández | juan.fernández6@correo.com   | 2025-03-28   |
+| Lucía    | Ruiz      | lucía.ruiz25@correo.com      | 2025-03-28   |
+| Luis     | López     | luis.lópez19@correo.com      | 2025-03-28   |
+| Carlos   | Rodríguez | carlos.rodríguez1@correo.com | 2025-03-29   |
+| Pedro    | Morales   | pedro.morales2@correo.com    | 2025-03-29   |
+| Juan     | Martínez  | juan.martínez20@correo.com   | 2025-03-29   |
+| Juan     | García    | juan.garcía23@correo.com     | 2025-03-29   |
+| Carlos   | Gómez     | carlos.gómez4@correo.com     | 2025-03-29   |
+| Sofía    | Gómez     | sofía.gómez21@correo.com     | 2025-03-30   |
+| Elena    | Gómez     | elena.gómez16@correo.com     | 2025-03-30   |
+| Elena    | Morales   | elena.morales8@correo.com    | 2025-03-31   |
+| María    | Fernández | maría.fernández29@correo.com | 2025-03-31   |
+| Luis     | Rodríguez | luis.rodríguez27@correo.com  | 2025-04-01   |
+| Luis     | López     | luis.lópez28@correo.com      | 2025-04-01   |
+| Carlos   | Rodríguez | carlos.rodríguez1@correo.com | 2025-04-01   |
+| Carlos   | García    | carlos.garcía14@correo.com   | 2025-04-01   |
+| Lucía    | Ruiz      | lucía.ruiz25@correo.com      | 2025-04-01   |
+| Carlos   | García    | carlos.garcía14@correo.com   | 2025-04-01   |
+| Elena    | Díaz      | elena.díaz22@correo.com      | 2025-04-01   |
+| Jorge    | Martínez  | jorge.martínez18@correo.com  | 2025-04-01   |
+| Juan     | Martínez  | juan.martínez20@correo.com   | 2025-04-02   |
+| María    | Fernández | maría.fernández5@correo.com  | 2025-04-02   |
+| María    | Morales   | maría.morales17@correo.com   | 2025-04-03   |
+| Carlos   | Gómez     | carlos.gómez4@correo.com     | 2025-04-03   |
+| María    | Fernández | maría.fernández5@correo.com  | 2025-04-04   |
+| Elena    | Díaz      | elena.díaz22@correo.com      | 2025-04-04   |
+| Carlos   | Gómez     | carlos.gómez4@correo.com     | 2025-04-04   |
+| Jorge    | Martínez  | jorge.martínez18@correo.com  | 2025-04-04   |
+| Pedro    | Morales   | pedro.morales2@correo.com    | 2025-04-04   |
+| Juan     | Martínez  | juan.martínez20@correo.com   | 2025-04-04   |
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DataTable 4.3
---
 
+MÁS USO
+| # userid | full_name        | email                         | interacciones |
+|----------|------------------|-------------------------------|---------------|
+| 8        | Elena Morales    | elena.morales8@correo.com     | 16            |
+| 26       | Sofía Martínez   | sofía.martínez26@correo.com   | 14            |
+| 23       | Juan García      | juan.garcía23@correo.com      | 8             |
+| 24       | Pedro Ruiz       | pedro.ruiz24@correo.com       | 8             |
+| 28       | Luis López       | luis.lópez28@correo.com       | 8             |
+| 16       | Elena Gómez      | elena.gómez16@correo.com      | 7             |
+| 2        | Pedro Morales    | pedro.morales2@correo.com     | 6             |
+| 6        | Juan Fernández   | juan.fernández6@correo.com    | 6             |
+| 7        | Pedro Martínez   | pedro.martínez7@correo.com    | 6             |
+| 29       | María Fernández  | maría.fernández29@correo.com  | 6             |
+| 27       | Luis Rodríguez   | luis.rodríguez27@correo.com   | 6             |
+| 30       | Carlos Fernández | carlos.fernández30@correo.com | 4             |
+| 12       | Ana Gómez        | ana.gómez12@correo.com        | 3             |
+| 25       | Lucía Ruiz       | lucía.ruiz25@correo.com       | 3             |
+| 18       | Jorge Martínez   | jorge.martínez18@correo.com   | 2             |
+
+MENOS USO
+| # userid | full_name        | email                        | interacciones |
+|----------|------------------|------------------------------|---------------|
+| 21       | Sofía Gómez      | sofía.gómez21@correo.com     | 0             |
+| 9        | Juan Sánchez     | juan.sánchez9@correo.com     | 0             |
+| 10       | Ana Díaz         | ana.díaz10@correo.com        | 0             |
+| 11       | Elena Díaz       | elena.díaz11@correo.com      | 0             |
+| 14       | Carlos García    | carlos.garcía14@correo.com   | 0             |
+| 1        | Carlos Rodríguez | carlos.rodríguez1@correo.com | 1             |
+| 4        | Carlos Gómez     | carlos.gómez4@correo.com     | 1             |
+| 17       | María Morales    | maría.morales17@correo.com   | 1             |
+| 3        | Luis Morales     | luis.morales3@correo.com     | 2             |
+| 5        | María Fernández  | maría.fernández5@correo.com  | 2             |
+| 20       | Juan Martínez    | juan.martínez20@correo.com   | 2             |
+| 19       | Luis López       | luis.lópez19@correo.com      | 2             |
+| 13       | María Rodríguez  | maría.rodríguez13@correo.com | 2             |
+| 15       | Carlos Gómez     | carlos.gómez15@correo.com    | 2             |
+| 18       | Jorge Martínez   | jorge.martínez18@correo.com  | 2             |
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DataTable 4.4
---
+| # error_type   | o_count | feedback                          | original_command                 | processed_command                   |
+|----------------|---------|-----------------------------------|----------------------------------|-------------------------------------|
+| Procesamiento  | 20      | Texto de retroalimentación 40     | Pesado para usuario 7 comando 4  | Procesado para usuario 7 comando 4  |
+| Contexto       | 18      | Texto de retroalimentación 8      | Pesado para usuario 8 comando 2  | Procesado para usuario 8 comando 2  |
+| Interpretación | 17      | Texto de retroalimentación 7      | Pesado para usuario 97 comando 3 | Procesado para usuario 97 comando 3 |
+| Conexión       | 12      | Texto de retroalimentación 9      | Pesado para usuario 8 comando 2  | Procesado para usuario 8 comando 2  |
+| Reconocimiento | 10      | Texto de retroalimentación 34     | Pesado para usuario 7 comando 3  | Procesado para usuario 7 comando 3  |
+| Respuesta      | 8       | Error comando 99: no se entendió  | Pesado para usuario 78 comando 2 | Procesado para usuario 78 comando 2 |
+| Entrenamiento  | 7       | Error comando 582: no se entendió | Pesado para usuario 49 comando 3 | Procesado para usuario 49 comando 3 |
+| Interpretación | 7       | Error comando 63: no se entendió  | Pesado para usuario 79 comando 1 | Procesado para usuario 79 comando 1 |
+| Contexto       | 6       | Error comando 37: no se entendió  | Pesado para usuario 73 comando 1 | Procesado para usuario 73 comando 1 |
+| Validación     | 5       | Error comando 57: no se entendió  | Pesado para usuario 15 comando 1 | Procesado para usuario 15 comando 1 |
+| Ejecución      | 5       | Error comando 58: no se entendió  | Pesado para usuario 90 comando 3 | Procesado para usuario 90 comando 3 |
+| Ejecución      | 3       | Error comando 390: no se entendió | Pesado para usuario 98 comando 2 | Procesado para usuario 98 comando 2 |
+| Reconocimiento | 3       | Error comando 372: no se entendió | Pesado para usuario 93 comando 4 | Procesado para usuario 93 comando 4 |
+| Ejecución      | 3       | Error comando 397: no se entendió | Pesado para usuario 5 comando 3  | Procesado para usuario 5 comando 3  |
+| Contexto       | 3       | Error comando 79: no se entendió  | Pesado para usuario 96 comando 1 | Procesado para usuario 96 comando 1 |
+| Reconocimiento | 3       | Error comando 51: no se entendió  | Pesado para usuario 96 comando 3 | Procesado para usuario 96 comando 3 |
+| Ejecución      | 2       | Error comando 55: no se entendió  | Pesado para usuario 57 comando 1 | Procesado para usuario 57 comando 1 |
+| Ejecución      | 2       | Error comando 308: no se entendió | Pesado para usuario 77 comando 4 | Procesado para usuario 77 comando 4 |
+| Reconocimiento | 2       | Error comando 68: no se entendió  | Pesado para usuario 76 comando 3 | Procesado para usuario 76 comando 3 |
+| Ejecución      | 2       | Error comando 317: no se entendió | Pesado para usuario 80 comando 1 | Procesado para usuario 80 comando 1 |
+| Reconocimiento | 2       | Error comando 85: no se entendió  | Pesado para usuario 22 comando 1 | Procesado para usuario 22 comando 1 |
+| Contexto       | 2       | Error comando 339: no se entendió | Pesado para usuario 85 comando 3 | Procesado para usuario 85 comando 3 |
+| Interpretación | 2       | Error comando 25: no se entendió  | Pesado para usuario 7 comando 1  | Procesado para usuario 7 comando 1  |
+| Interpretación | 2       | Error comando 61: no se entendió  | Pesado para usuario 51 comando 4 | Procesado para usuario 51 comando 4 |
+| Reconocimiento | 1       | Error comando 8: no se entendió   | Pesado para usuario 2 comando 4  | Procesado para usuario 2 comando 4  |
+| Reconocimiento | 1       | Error comando 161: no se entendió | Pesado para usuario 41 comando 1 | Procesado para usuario 41 comando 1 |
+| Reconocimiento | 1       | Error comando 246: no se entendió | Pesado para usuario 62 comando 2 | Procesado para usuario 62 comando 2 |
+| Reconocimiento | 1       | Error comando 227: no se entendió | Pesado para usuario 57 comando 3 | Procesado para usuario 57 comando 3 |
+| Contexto       | 1       | Error comando 144: no se entendió | Pesado para usuario 36 comando 4 | Procesado para usuario 36 comando 4 |
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Script consultas
