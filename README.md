@@ -121,38 +121,37 @@ MENOS USO
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DataTable 4.4
-| # error_type   | o_count | feedback                          | original_command                 | processed_command                   |
-|----------------|---------|-----------------------------------|----------------------------------|-------------------------------------|
-| Procesamiento  | 20      | Texto de retroalimentación 40     | Pesado para usuario 7 comando 4  | Procesado para usuario 7 comando 4  |
-| Contexto       | 18      | Texto de retroalimentación 8      | Pesado para usuario 8 comando 2  | Procesado para usuario 8 comando 2  |
-| Interpretación | 17      | Texto de retroalimentación 7      | Pesado para usuario 97 comando 3 | Procesado para usuario 97 comando 3 |
-| Conexión       | 12      | Texto de retroalimentación 9      | Pesado para usuario 8 comando 2  | Procesado para usuario 8 comando 2  |
-| Reconocimiento | 10      | Texto de retroalimentación 34     | Pesado para usuario 7 comando 3  | Procesado para usuario 7 comando 3  |
-| Respuesta      | 8       | Error comando 99: no se entendió  | Pesado para usuario 78 comando 2 | Procesado para usuario 78 comando 2 |
-| Entrenamiento  | 7       | Error comando 582: no se entendió | Pesado para usuario 49 comando 3 | Procesado para usuario 49 comando 3 |
-| Interpretación | 7       | Error comando 63: no se entendió  | Pesado para usuario 79 comando 1 | Procesado para usuario 79 comando 1 |
-| Contexto       | 6       | Error comando 37: no se entendió  | Pesado para usuario 73 comando 1 | Procesado para usuario 73 comando 1 |
-| Validación     | 5       | Error comando 57: no se entendió  | Pesado para usuario 15 comando 1 | Procesado para usuario 15 comando 1 |
-| Ejecución      | 5       | Error comando 58: no se entendió  | Pesado para usuario 90 comando 3 | Procesado para usuario 90 comando 3 |
-| Ejecución      | 3       | Error comando 390: no se entendió | Pesado para usuario 98 comando 2 | Procesado para usuario 98 comando 2 |
-| Reconocimiento | 3       | Error comando 372: no se entendió | Pesado para usuario 93 comando 4 | Procesado para usuario 93 comando 4 |
-| Ejecución      | 3       | Error comando 397: no se entendió | Pesado para usuario 5 comando 3  | Procesado para usuario 5 comando 3  |
-| Contexto       | 3       | Error comando 79: no se entendió  | Pesado para usuario 96 comando 1 | Procesado para usuario 96 comando 1 |
-| Reconocimiento | 3       | Error comando 51: no se entendió  | Pesado para usuario 96 comando 3 | Procesado para usuario 96 comando 3 |
-| Ejecución      | 2       | Error comando 55: no se entendió  | Pesado para usuario 57 comando 1 | Procesado para usuario 57 comando 1 |
-| Ejecución      | 2       | Error comando 308: no se entendió | Pesado para usuario 77 comando 4 | Procesado para usuario 77 comando 4 |
-| Reconocimiento | 2       | Error comando 68: no se entendió  | Pesado para usuario 76 comando 3 | Procesado para usuario 76 comando 3 |
-| Ejecución      | 2       | Error comando 317: no se entendió | Pesado para usuario 80 comando 1 | Procesado para usuario 80 comando 1 |
-| Reconocimiento | 2       | Error comando 85: no se entendió  | Pesado para usuario 22 comando 1 | Procesado para usuario 22 comando 1 |
-| Contexto       | 2       | Error comando 339: no se entendió | Pesado para usuario 85 comando 3 | Procesado para usuario 85 comando 3 |
-| Interpretación | 2       | Error comando 25: no se entendió  | Pesado para usuario 7 comando 1  | Procesado para usuario 7 comando 1  |
-| Interpretación | 2       | Error comando 61: no se entendió  | Pesado para usuario 51 comando 4 | Procesado para usuario 51 comando 4 |
-| Reconocimiento | 1       | Error comando 8: no se entendió   | Pesado para usuario 2 comando 4  | Procesado para usuario 2 comando 4  |
-| Reconocimiento | 1       | Error comando 161: no se entendió | Pesado para usuario 41 comando 1 | Procesado para usuario 41 comando 1 |
-| Reconocimiento | 1       | Error comando 246: no se entendió | Pesado para usuario 62 comando 2 | Procesado para usuario 62 comando 2 |
-| Reconocimiento | 1       | Error comando 227: no se entendió | Pesado para usuario 57 comando 3 | Procesado para usuario 57 comando 3 |
-| Contexto       | 1       | Error comando 144: no se entendió | Pesado para usuario 36 comando 4 | Procesado para usuario 36 comando 4 |
-
+| # error_type                          | occurrence_count | feedback                                              | original_command                                | processed_command                                |
+|---------------------------------------|------------------|-------------------------------------------------------|-------------------------------------------------|--------------------------------------------------|
+| Falla de procesamiento                | 20               | Texto de retroalimentación 40                         | Texto original pesado para usuario 7 comando 4  | Texto procesado pesado para usuario 7 comando 4  |
+| Confusión de contexto                 | 18               | Texto de retroalimentación 8                          | Texto original pesado para usuario 8 comando 2  | Texto procesado pesado para usuario 8 comando 2  |
+| Error de interpretación               | 17               | Texto de retroalimentación 7                          | Texto original pesado para usuario 97 comando 3 | Texto procesado pesado para usuario 97 comando 3 |
+| Error de conexión                     | 12               | Texto de retroalimentación 9                          | Texto original pesado para usuario 8 comando 2  | Texto procesado pesado para usuario 8 comando 2  |
+| Falla de reconocimiento               | 10               | Texto de retroalimentación 34                         | Texto original pesado para usuario 7 comando 3  | Texto procesado pesado para usuario 7 comando 3  |
+| Error de respuesta                    | 8                | Error en el comando 99: no se entendió correctamente  | Texto original pesado para usuario 78 comando 2 | Texto procesado pesado para usuario 78 comando 2 |
+| Fallo en el entrenamiento             | 7                | Error en el comando 582: no se entendió correctamente | Texto original pesado para usuario 49 comando 3 | Texto procesado pesado para usuario 49 comando 3 |
+| Interpretación-016: secuencia (grave) | 7                | Error en el comando 63: no se entendió correctamente  | Texto original pesado para usuario 79 comando 1 | Texto procesado pesado para usuario 79 comando 1 |
+| Contexto-003: secuencia (leve)        | 6                | Error en el comando 37: no se entendió correctamente  | Texto original pesado para usuario 73 comando 1 | Texto procesado pesado para usuario 73 comando 1 |
+| Error de validación                   | 5                | Error en el comando 57: no se entendió correctamente  | Texto original pesado para usuario 15 comando 1 | Texto procesado pesado para usuario 15 comando 1 |
+| Ejecución-009: secuencia (moderado)   | 5                | Error en el comando 58: no se entendió correctamente  | Texto original pesado para usuario 90 comando 3 | Texto procesado pesado para usuario 90 comando 3 |
+| Ejecución-007: texto (leve)           | 3                | Error en el comando 390: no se entendió correctamente | Texto original pesado para usuario 98 comando 2 | Texto procesado pesado para usuario 98 comando 2 |
+| Reconocimiento-021: texto (leve)      | 3                | Error en el comando 372: no se entendió correctamente | Texto original pesado para usuario 93 comando 4 | Texto procesado pesado para usuario 93 comando 4 |
+| Ejecución-019: audio (leve)           | 3                | Error en el comando 397: no se entendió correctamente | Texto original pesado para usuario 5 comando 3  | Texto procesado pesado para usuario 5 comando 3  |
+| Contexto-015: audio (grave)           | 3                | Error en el comando 79: no se entendió correctamente  | Texto original pesado para usuario 96 comando 1 | Texto procesado pesado para usuario 96 comando 1 |
+| Reconocimiento-010: audio (grave)     | 3                | Error en el comando 51: no se entendió correctamente  | Texto original pesado para usuario 96 comando 3 | Texto procesado pesado para usuario 96 comando 3 |
+| Ejecución-006: entidades (grave)      | 2                | Error en el comando 55: no se entendió correctamente  | Texto original pesado para usuario 57 comando 1 | Texto procesado pesado para usuario 57 comando 1 |
+| Ejecución-014: audio (leve)           | 2                | Error en el comando 308: no se entendió correctamente | Texto original pesado para usuario 77 comando 4 | Texto procesado pesado para usuario 77 comando 4 |
+| Reconocimiento-005: entidades (grave) | 2                | Error en el comando 68: no se entendió correctamente  | Texto original pesado para usuario 76 comando 3 | Texto procesado pesado para usuario 76 comando 3 |
+| Ejecución-004: entidades (moderado)   | 2                | Error en el comando 317: no se entendió correctamente | Texto original pesado para usuario 80 comando 1 | Texto procesado pesado para usuario 80 comando 1 |
+| Reconocimiento-017: texto (grave)     | 2                | Error en el comando 85: no se entendió correctamente  | Texto original pesado para usuario 22 comando 1 | Texto procesado pesado para usuario 22 comando 1 |
+| Contexto-018: intención (leve)        | 2                | Error en el comando 339: no se entendió correctamente | Texto original pesado para usuario 85 comando 3 | Texto procesado pesado para usuario 85 comando 3 |
+| Interpretación-001: audio (grave)     | 2                | Error en el comando 25: no se entendió correctamente  | Texto original pesado para usuario 7 comando 1  | Texto procesado pesado para usuario 7 comando 1  |
+| Interpretación-022: audio (grave)     | 2                | Error en el comando 61: no se entendió correctamente  | Texto original pesado para usuario 51 comando 4 | Texto procesado pesado para usuario 51 comando 4 |
+| Reconocimiento-008: audio (leve)      | 1                | Error en el comando 8: no se entendió correctamente   | Texto original pesado para usuario 2 comando 4  | Texto procesado pesado para usuario 2 comando 4  |
+| Reconocimiento-012: secuencia (grave) | 1                | Error en el comando 161: no se entendió correctamente | Texto original pesado para usuario 41 comando 1 | Texto procesado pesado para usuario 41 comando 1 |
+| Reconocimiento-013: secuencia (grave) | 1                | Error en el comando 246: no se entendió correctamente | Texto original pesado para usuario 62 comando 2 | Texto procesado pesado para usuario 62 comando 2 |
+| Reconocimiento-002: entidades (leve)  | 1                | Error en el comando 227: no se entendió correctamente | Texto original pesado para usuario 57 comando 3 | Texto procesado pesado para usuario 57 comando 3 |
+| Contexto-020: entidades (leve)        | 1                | Error en el comando 144: no se entendió correctamente | Texto original pesado para usuario 36 comando 4 | Texto procesado pesado para usuario 36 comando 4 |
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Script consultas
 use mydb;
