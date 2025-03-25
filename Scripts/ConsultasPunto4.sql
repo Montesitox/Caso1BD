@@ -53,18 +53,18 @@ LEFT JOIN assists_dispositive d ON u.userid = d.userid
 LEFT JOIN assists_logs l ON d.dispositiveid = l.dispositiveid 
 WHERE l.log_type_id IN (1, 2, 3) -- 1: Login, 2: Acción, 3: Error (uso de la app)
 GROUP BY u.userid, full_name, u.email
-ORDER BY total_interactions DESC 
+ORDER BY interacciones DESC 
 LIMIT 15;
 
 -- Usuarios con menos interacciones (incluye los que nunca usaron la app) --
 SELECT u.userid, CONCAT(u.firstname, ' ', u.lastname) AS full_name, u.email, 
-       COALESCE(COUNT(l.log_id), 0) AS total_interactions
+       COALESCE(COUNT(l.log_id), 0) AS interacciones
 FROM assists_users u
 LEFT JOIN assists_dispositive d ON u.userid = d.userid
 LEFT JOIN assists_logs l ON d.dispositiveid = l.dispositiveid 
 AND l.log_type_id IN (1, 2, 3) -- Mismos tipos de interacciones
 GROUP BY u.userid, full_name, u.email
-ORDER BY total_interactions ASC 
+ORDER BY interacciones ASC 
 LIMIT 15;
 
 -- 4.4 Errores de la IA --
